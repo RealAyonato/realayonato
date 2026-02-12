@@ -1,0 +1,525 @@
+/* Animations Custom File */
+
+/* 1. Glitch Effect */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+    text-shadow: 0 0 0 red;
+  }
+  2% {
+    transform: translate(-2px, 2px);
+    text-shadow: 2px 0 0 cyan;
+  }
+  4% {
+    transform: translate(2px, -1px);
+    text-shadow: -2px 0 0 magenta;
+  }
+  6% {
+    transform: translate(-1px, 1px);
+    text-shadow: 1px 0 0 yellow;
+  }
+  8% {
+    transform: translate(1px, -2px);
+    text-shadow: -1px 0 0 lime;
+  }
+  10% {
+    transform: translate(0);
+    text-shadow: 0 0 0 red;
+  }
+  100% {
+    transform: translate(0);
+    text-shadow: 0 0 0 red;
+  }
+}
+
+.glitch-text {
+  animation: glitch 3s infinite;
+  position: relative;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch-text::before {
+  animation: glitch-top 1s infinite linear alternate-reverse;
+  clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+  -webkit-clip-path: polygon(0 0, 100% 0, 100% 33%, 0 33%);
+}
+
+.glitch-text::after {
+  animation: glitch-bottom 1.5s infinite linear alternate-reverse;
+  clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+  -webkit-clip-path: polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+}
+
+@keyframes glitch-top {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-bottom {
+  0% {
+    transform: translate(0);
+  }
+  25% {
+    transform: translate(2px, -2px);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+  75% {
+    transform: translate(2px, 2px);
+  }
+  100% {
+    transform: translate(-2px, -2px);
+  }
+}
+
+/* 2. Floating Animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-20px) rotate(5deg);
+  }
+}
+
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.float-slow {
+  animation: float 8s ease-in-out infinite;
+}
+
+.float-fast {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* 3. Gradient Border */
+@keyframes gradient-border {
+  0%, 100% {
+    border-image: linear-gradient(45deg, #DC143C, #FF4500, #FF6347) 1;
+  }
+  50% {
+    border-image: linear-gradient(45deg, #FF6347, #DC143C, #FF4500) 1;
+  }
+}
+
+.gradient-border {
+  border: 2px solid transparent;
+  animation: gradient-border 3s ease infinite;
+}
+
+/* 4. Text Gradient Animation */
+@keyframes text-gradient {
+  0%, 100% {
+    background-position: 0% 50%;
+    background-size: 200% 200%;
+  }
+  50% {
+    background-position: 100% 50%;
+    background-size: 200% 200%;
+  }
+}
+
+.text-gradient-animated {
+  background: linear-gradient(45deg, #DC143C, #FF4500, #FF6347, #DC143C);
+  background-size: 300% 300%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: text-gradient 3s ease infinite;
+}
+
+/* 5. Neon Pulse */
+@keyframes neon-pulse {
+  0%, 100% {
+    text-shadow: 
+      0 0 5px #fff,
+      0 0 10px #fff,
+      0 0 20px #DC143C,
+      0 0 30px #DC143C,
+      0 0 40px #DC143C;
+  }
+  50% {
+    text-shadow: 
+      0 0 10px #fff,
+      0 0 20px #fff,
+      0 0 30px #FF4500,
+      0 0 40px #FF4500,
+      0 0 50px #FF4500;
+  }
+}
+
+.neon-text {
+  animation: neon-pulse 1.5s ease-in-out infinite alternate;
+}
+
+/* 6. Loading Spinner */
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+.spinner-slow {
+  animation: spin 2s linear infinite;
+}
+
+/* 7. Shimmer Effect */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, 
+    rgba(255, 255, 255, 0) 0%, 
+    rgba(255, 255, 255, 0.1) 50%, 
+    rgba(255, 255, 255, 0) 100%);
+  background-size: 1000px 100%;
+  animation: shimmer 2s infinite;
+}
+
+/* 8. Typewriter Effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: #DC143C;
+  }
+}
+
+.typewriter {
+  overflow: hidden;
+  border-right: 3px solid #DC143C;
+  white-space: nowrap;
+  animation: 
+    typing 3.5s steps(40, end),
+    blink-caret 0.75s step-end infinite;
+}
+
+/* 9. Bounce In */
+@keyframes bounce-in {
+  0% {
+    opacity: 0;
+    transform: scale(0.3);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.bounce-in {
+  animation: bounce-in 0.6s ease;
+}
+
+/* 10. Slide In */
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-top {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-in-bottom {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slide-in-left {
+  animation: slide-in-left 0.5s ease-out;
+}
+
+.slide-in-right {
+  animation: slide-in-right 0.5s ease-out;
+}
+
+.slide-in-top {
+  animation: slide-in-top 0.5s ease-out;
+}
+
+.slide-in-bottom {
+  animation: slide-in-bottom 0.5s ease-out;
+}
+
+/* 11. Scale In */
+@keyframes scale-in {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.scale-in {
+  animation: scale-in 0.3s ease-out;
+}
+
+/* 12. Fade In */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.fade-in {
+  animation: fade-in 0.5s ease-out;
+}
+
+.fade-in-slow {
+  animation: fade-in 1s ease-out;
+}
+
+.fade-in-fast {
+  animation: fade-in 0.2s ease-out;
+}
+
+/* 13. Rotate 3D */
+@keyframes rotate-3d {
+  0% {
+    transform: perspective(1000px) rotateY(0deg);
+  }
+  100% {
+    transform: perspective(1000px) rotateY(360deg);
+  }
+}
+
+.rotate-3d {
+  animation: rotate-3d 10s linear infinite;
+}
+
+/* 14. Wave Animation */
+@keyframes wave {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  25% {
+    transform: translateY(-10px);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(5px);
+  }
+}
+
+.wave {
+  animation: wave 2s ease-in-out infinite;
+}
+
+/* 15. Particle Effect */
+@keyframes particle-float {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+.particle {
+  position: absolute;
+  pointer-events: none;
+  animation: particle-float 2s ease-out forwards;
+}
+
+/* 16. RGB Split */
+@keyframes rgb-split {
+  0%, 100% {
+    text-shadow: 
+      0 0 0 red,
+      0 0 0 green,
+      0 0 0 blue;
+  }
+  50% {
+    text-shadow: 
+      -5px 0 0 red,
+      5px 0 0 green,
+      0 5px 0 blue;
+  }
+}
+
+.rgb-split {
+  animation: rgb-split 2s ease-in-out infinite;
+}
+
+/* 17. Morphing Gradient */
+@keyframes morphing-gradient {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.morphing-gradient {
+  background: linear-gradient(-45deg, 
+    #DC143C, 
+    #FF4500, 
+    #FF6347, 
+    #DC143C,
+    #FF4500);
+  background-size: 400% 400%;
+  animation: morphing-gradient 15s ease infinite;
+}
+
+/* 18. Staggered Children Animation */
+.stagger-item:nth-child(1) { animation-delay: 0.1s; }
+.stagger-item:nth-child(2) { animation-delay: 0.2s; }
+.stagger-item:nth-child(3) { animation-delay: 0.3s; }
+.stagger-item:nth-child(4) { animation-delay: 0.4s; }
+.stagger-item:nth-child(5) { animation-delay: 0.5s; }
+.stagger-item:nth-child(6) { animation-delay: 0.6s; }
+.stagger-item:nth-child(7) { animation-delay: 0.7s; }
+.stagger-item:nth-child(8) { animation-delay: 0.8s; }
+.stagger-item:nth-child(9) { animation-delay: 0.9s; }
+.stagger-item:nth-child(10) { animation-delay: 1s; }
+
+/* 19. Hover Effects */
+.hover-lift {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(220, 20, 60, 0.3);
+}
+
+.hover-glow {
+  transition: box-shadow 0.3s ease;
+}
+
+.hover-glow:hover {
+  box-shadow: 0 0 20px rgba(220, 20, 60, 0.5);
+}
+
+.hover-scale {
+  transition: transform 0.3s ease;
+}
+
+.hover-scale:hover {
+  transform: scale(1.05);
+}
+
+/* 20. Infinite Scroll */
+@keyframes infinite-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.infinite-scroll {
+  animation: infinite-scroll 20s linear infinite;
+}
+
+.infinite-scroll:hover {
+  animation-play-state: paused;
+}
