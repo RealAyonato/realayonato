@@ -1410,17 +1410,86 @@ async function submitCM() {
     localStorage.removeItem('ra_draft_'+selPkg);
     lastOrderData = {...orderData};
 
-    // WhatsApp notification via Callmebot
-    try {
-      const msg = encodeURIComponent(
-        '🎨 New Order!\n' +
-        '📦 ' + orderData.packageName + ' — $' + orderData.price + '\n' +
-        '👤 ' + (orderData.robloxUsername||'?') + '\n' +
-        '💬 Via: ' + (orderData.platform||'?') + '\n' +
-        '🔖 Ref: #' + docRef.id.slice(-6).toUpperCase()
-      );
-      fetch('https://api.callmebot.com/whatsapp.php?phone=212631115324&text=' + msg + '&apikey=REPLACE_WITH_YOUR_APIKEY', {mode:'no-cors'}).catch(()=>{});
-    } catch(e) {}
+// ✅ Discord Webhook Notification (Professional English)
+try {
+  const webhookURL = 'ضع_رابط_Webhook_الجديد_هنا'; // ⬅️ Paste NEW Webhook URL here
+  
+  const embed = {
+    embeds: [{
+      title: '🔔 New Order Received — RealAyonato.art',
+      description: 'A new design order has been submitted successfully.',
+      color: 14423100, // Red: #dc2626
+      thumbnail: {
+        url: 'https://i.postimg.cc/qqJzc822/logo.webp'
+      },
+      fields: [
+        {
+          name: '📦 Package',
+          value: '`' + (orderData.packageName || 'Not specified') + '`',
+          inline: true
+        },
+        {
+          name: '💰 Price',
+          value: '**$' + orderData.price + '**' + (orderData.isFirstOrder ? '\n_50% First-Order Discount Applied_' : ''),
+          inline: true
+        },
+        {
+          name: '🎯 Customer Type',
+          value: orderData.isFirstOrder ? 'New Customer 🆕' : 'Returning Customer',
+          inline: true
+        },
+        {
+          name: '👤 Roblox Username',
+          value: '`' + (orderData.robloxUsername || '—') + '`',
+          inline: true
+        },
+        {
+          name: '💬 Platform',
+          value: orderData.platform || '—',
+          inline: true
+        },
+        {
+          name: '🔗 Contact Username',
+          value: orderData.platformUsername ? '`' + orderData.platformUsername + '`' : '—',
+          inline: true
+        },
+        {
+          name: '🕐 Requested Deadline',
+          value: orderData.deadline || 'Not specified',
+          inline: false
+        },
+        {
+          name: '📝 Concept / Description',
+          value: orderData.concept || 'No concept provided',
+          inline: false
+        },
+        {
+          name: '🎨 Style Preference',
+          value: orderData.style || 'Not specified',
+          inline: false
+        },
+        {
+          name: '📋 Additional Notes',
+          value: orderData.notes || 'No additional notes',
+          inline: false
+        }
+      ],
+      footer: {
+        text: '🔖 Order ID: #' + docRef.id.slice(-6).toUpperCase() + ' | RealAyonato.art',
+        icon_url: 'https://i.postimg.cc/qqJzc822/logo.webp'
+      },
+      timestamp: new Date().toISOString()
+    }]
+  };
+  
+  fetch(webhookURL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(embed)
+  }).catch(() => {});
+} catch(e) {
+  console.error('Discord notification error:', e);
+}
 
     // Telegram notification
     try {
