@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Terms of Service — RealAyonato.art</title>
+<link rel="icon" href="https://i.postimg.cc/qqJzc822/logo.webp">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #dc2626;
+    --red-soft: rgba(220,38,38,0.12);
+    --red-glow: rgba(220,38,38,0.25);
+    --bg: #080808;
+    --g900: #111;
+    --g800: #1a1a1a;
+    --g700: #242424;
+    --g600: #333;
+    --g400: #9ca3af;
+    --g300: #d1d5db;
+    --g200: #e5e7eb;
+    --white: #fff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.85;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Subtle background texture */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220,38,38,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(220,38,38,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+  }
+
+  /* Back link */
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--red);
+    font-weight: 700;
+    font-size: .82rem;
+    text-decoration: none;
+    margin-bottom: 48px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    transition: gap .2s, opacity .2s;
+  }
+  .back:hover { gap: 14px; opacity: .8; }
+  .back svg { flex-shrink: 0; }
+
+  /* Header */
+  .header { margin-bottom: 48px; }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 8vw, 4rem);
+    letter-spacing: .05em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  h1 span { color: var(--red); }
+
+  .meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--g400);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .meta::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+
+  .intro {
+    background: var(--red-soft);
+    border-left: 3px solid var(--red);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+    color: var(--g300);
+    font-size: .9rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+
+  /* Sections */
+  .section {
+    background: var(--g900);
+    border: 1px solid var(--g700);
+    border-radius: 14px;
+    padding: 28px 30px;
+    margin-bottom: 18px;
+    transition: border-color .25s, box-shadow .25s;
+  }
+  .section:hover {
+    border-color: var(--g600);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  }
+
+  /* Special highlight section */
+  .section.highlight {
+    background: linear-gradient(135deg, #140a0a 0%, #1a0d0d 100%);
+    border-color: rgba(220,38,38,0.35);
+  }
+  .section.highlight:hover {
+    border-color: rgba(220,38,38,0.6);
+    box-shadow: 0 4px 40px var(--red-glow);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--red-soft);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+  .section.highlight .section-icon {
+    background: rgba(220,38,38,0.2);
+  }
+
+  h2 {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  p, li {
+    color: var(--g300);
+    font-size: .88rem;
+    margin-bottom: 8px;
+  }
+  li:last-child, p:last-child { margin-bottom: 0; }
+
+  ul {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+
+  li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  /* Process steps (watermark flow) */
+  .process-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 4px;
+  }
+
+  .step {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    position: relative;
+  }
+
+  .step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 38px;
+    width: 2px;
+    height: calc(100% - 12px);
+    background: linear-gradient(to bottom, var(--red), transparent);
+    opacity: .35;
+  }
+
+  .step-num {
+    width: 36px;
+    height: 36px;
+    background: var(--red);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    letter-spacing: .05em;
+    flex-shrink: 0;
+    color: #fff;
+    box-shadow: 0 0 14px var(--red-glow);
+  }
+
+  .step-content {
+    padding-bottom: 22px;
+    flex: 1;
+  }
+
+  .step-title {
+    font-weight: 800;
+    font-size: .9rem;
+    color: var(--white);
+    margin-bottom: 3px;
+  }
+
+  .step-desc {
+    color: var(--g400);
+    font-size: .83rem;
+    margin-bottom: 0;
+  }
+
+  /* Refund table */
+  .refund-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+
+  .refund-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--g800);
+    border-radius: 10px;
+    padding: 12px 16px;
+    border: 1px solid var(--g700);
+  }
+
+  .refund-badge {
+    font-size: .85rem;
+    flex-shrink: 0;
+    width: 28px;
+    text-align: center;
+  }
+
+  .refund-text {
+    color: var(--g300);
+    font-size: .85rem;
+    margin: 0;
+  }
+
+  /* Prohibited */
+  .forbidden-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: rgba(220,38,38,0.06);
+    border: 1px solid rgba(220,38,38,0.18);
+    border-radius: 10px;
+    padding: 12px 16px;
+    margin-bottom: 8px;
+  }
+  .forbidden-item:last-child { margin-bottom: 0; }
+  .forbidden-item::before { display: none; }
+
+  .forbidden-icon { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+  .forbidden-text { color: var(--g300); font-size: .86rem; margin: 0; }
+
+  /* Footer */
+  .footer-divider {
+    border: none;
+    border-top: 1px solid var(--g800);
+    margin: 48px 0 24px;
+  }
+
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .footer-copy {
+    color: #4b5563;
+    font-size: .78rem;
+    font-weight: 600;
+  }
+
+  .discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: .8rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: opacity .2s, transform .15s;
+  }
+  .discord-btn:hover { opacity: .85; transform: translateY(-1px); }
+
+  /* Fade-in animation */
+  .section {
+    animation: fadeUp .4s ease both;
+  }
+  .section:nth-child(1) { animation-delay: .05s; }
+  .section:nth-child(2) { animation-delay: .1s; }
+  .section:nth-child(3) { animation-delay: .15s; }
+  .section:nth-child(4) { animation-delay: .2s; }
+  .section:nth-child(5) { animation-delay: .25s; }
+  .section:nth-child(6) { animation-delay: .3s; }
+  .section:nth-child(7) { animation-delay: .35s; }
+  .section:nth-child(8) { animation-delay: .4s; }
+  .section:nth-child(9) { animation-delay: .45s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 500px) {
+    .container { padding: 40px 16px 80px; }
+    .section { padding: 22px 18px; }
+    .footer-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a class="back" href="/">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Home
+  </a>
+
+  <div class="header">
+    <h1>Terms of <span>Service</span></h1>
+    <div class="meta">Last updated: March 2026</div>
+    <div class="intro">
+      Welcome! By placing an order on RealAyonato.art, you agree to the following terms. Please read them — they're here to keep things fair and smooth for both of us. 🤝
+    </div>
+  </div>
+
+  <!-- Services -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🎨</div>
+      <h2>Services</h2>
+    </div>
+    <p>RealAyonato provides custom Roblox graphic design services including thumbnails, GFX, banners, and profile pictures. All work is crafted digitally and delivered as high-quality image files.</p>
+  </div>
+
+  <!-- Orders & Payment -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">💳</div>
+      <h2>Orders & Payment</h2>
+    </div>
+    <ul>
+      <li>Orders are confirmed only after payment is received and verified.</li>
+      <li>Payment is accepted via <strong style="color:#fff">PayPal</strong> or <strong style="color:#fff">Ko-fi</strong>.</li>
+      <li>First-order discounts are applied automatically for new clients and are non-transferable.</li>
+    </ul>
+  </div>
+
+  <!-- How It Works (NEW watermark section) -->
+  <div class="section highlight">
+    <div class="section-header">
+      <div class="section-icon">🖼️</div>
+      <h2>How Delivery Works</h2>
+    </div>
+    <div class="process-steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <div class="step-title">Order Placed</div>
+          <div class="step-desc">You submit your order details and we confirm the brief together.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <div class="step-title">Watermarked Preview Sent</div>
+          <div class="step-desc">Once the design is ready, you receive a watermarked preview so you can review the result before paying.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <div class="step-title">Payment Confirmed</div>
+          <div class="step-desc">Happy with what you see? Complete the payment via PayPal or Ko-fi.</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <div class="step-title">Full-Quality File Delivered ✅</div>
+          <div class="step-desc">After payment is verified, you instantly receive the clean, full-resolution file with no watermarks.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Revisions -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">✏️</div>
+      <h2>Revisions</h2>
+    </div>
+    <ul>
+      <li>Each package includes a defined number of free revisions (see pricing page).</li>
+      <li>Additional revisions are charged at <strong style="color:#fff">$2 per revision</strong>.</li>
+      <li>Revision requests must be made within <strong style="color:#fff">7 days</strong> of delivery.</li>
+      <li>A revision covers minor adjustments — a full redesign may be treated as a new order.</li>
+    </ul>
+  </div>
+
+  <!-- Delivery Times -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🚚</div>
+      <h2>Delivery Times</h2>
+    </div>
+    <ul>
+      <li>Estimated delivery times are provided as guidelines, not strict guarantees.</li>
+      <li>Complex or custom projects may take a little longer — you'll always be notified in advance if that's the case.</li>
+    </ul>
+  </div>
+
+  <!-- Ownership -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">©️</div>
+      <h2>Ownership & Commercial Use</h2>
+    </div>
+    <ul>
+      <li>Upon full payment, you receive <strong style="color:#fff">full ownership and commercial rights</strong> to the delivered design.</li>
+      <li>RealAyonato retains the right to showcase the work in their portfolio. If you'd prefer the design stay private, just let us know!</li>
+    </ul>
+  </div>
+
+  <!-- Refunds -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">💰</div>
+      <h2>Refunds</h2>
+    </div>
+    <div class="refund-grid">
+      <div class="refund-row">
+        <span class="refund-badge">✅</span>
+        <p class="refund-text"><strong style="color:#fff">Cancelled before work starts:</strong> Full refund issued, no questions asked.</p>
+      </div>
+      <div class="refund-row">
+        <span class="refund-badge">⚠️</span>
+        <p class="refund-text"><strong style="color:#fff">Final result significantly differs from the brief:</strong> A partial or full refund may be negotiated fairly.</p>
+      </div>
+      <div class="refund-row">
+        <span class="refund-badge">ℹ️</span>
+        <p class="refund-text"><strong style="color:#fff">After payment is made for the approved design:</strong> Since you reviewed a preview before paying, refunds are not issued at this stage.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Client Responsibilities -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">👤</div>
+      <h2>Your Responsibilities</h2>
+    </div>
+    <p>To get the best result, please provide clear and complete information when placing your order. Delays caused by missing or unclear briefs won't be on our end — but we'll always try to reach out if something's unclear! 😊</p>
+  </div>
+
+  <!-- Prohibited -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🚫</div>
+      <h2>Prohibited Uses</h2>
+    </div>
+    <div class="forbidden-item">
+      <span class="forbidden-icon">❌</span>
+      <p class="forbidden-text">Designs may not be resold or redistributed as your own original creative work.</p>
+    </div>
+    <div class="forbidden-item">
+      <span class="forbidden-icon">❌</span>
+      <p class="forbidden-text">Designs may not be used for illegal, harmful, or deceptive purposes of any kind.</p>
+    </div>
+  </div>
+
+  <!-- Changes -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🔄</div>
+      <h2>Changes to These Terms</h2>
+    </div>
+    <p>We may update these terms from time to time to keep things current. Continued use of our service after any changes means you accept the updated terms. We recommend checking back occasionally.</p>
+  </div>
+
+  <hr class="footer-divider">
+  <div class="footer-row">
+    <span class="footer-copy">© 2026 RealAyonato. All rights reserved.</span>
+    <a class="discord-btn" href="https://discord.gg/sghJet3uNF" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Contact via Discord
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

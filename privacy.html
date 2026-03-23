@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Privacy Policy — RealAyonato.art</title>
+<link rel="icon" href="https://i.postimg.cc/qqJzc822/logo.webp">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Nunito:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #dc2626;
+    --red-soft: rgba(220,38,38,0.12);
+    --red-glow: rgba(220,38,38,0.25);
+    --bg: #080808;
+    --g900: #111;
+    --g800: #1a1a1a;
+    --g700: #242424;
+    --g600: #333;
+    --g400: #9ca3af;
+    --g300: #d1d5db;
+    --g200: #e5e7eb;
+    --white: #fff;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--white);
+    font-family: 'Nunito', sans-serif;
+    line-height: 1.85;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220,38,38,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 30% at 80% 80%, rgba(220,38,38,0.04) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 60px 28px 100px;
+  }
+
+  .back {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--red);
+    font-weight: 700;
+    font-size: .82rem;
+    text-decoration: none;
+    margin-bottom: 48px;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    transition: gap .2s, opacity .2s;
+  }
+  .back:hover { gap: 14px; opacity: .8; }
+
+  .header { margin-bottom: 48px; }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 8vw, 4rem);
+    letter-spacing: .05em;
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  h1 span { color: var(--red); }
+
+  .meta {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--g400);
+    font-size: .78rem;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .meta::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 2px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+
+  .intro {
+    background: var(--red-soft);
+    border-left: 3px solid var(--red);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 20px;
+    color: var(--g300);
+    font-size: .9rem;
+    font-weight: 600;
+  }
+
+  .section {
+    background: var(--g900);
+    border: 1px solid var(--g700);
+    border-radius: 14px;
+    padding: 28px 30px;
+    margin-bottom: 18px;
+    transition: border-color .25s, box-shadow .25s;
+    animation: fadeUp .4s ease both;
+  }
+  .section:hover {
+    border-color: var(--g600);
+    box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+  }
+
+  .section.highlight {
+    background: linear-gradient(135deg, #060d14 0%, #091018 100%);
+    border-color: rgba(59,130,246,0.25);
+  }
+  .section.highlight:hover {
+    border-color: rgba(59,130,246,0.45);
+    box-shadow: 0 4px 40px rgba(59,130,246,0.12);
+  }
+
+  .section:nth-child(1) { animation-delay: .05s; }
+  .section:nth-child(2) { animation-delay: .10s; }
+  .section:nth-child(3) { animation-delay: .15s; }
+  .section:nth-child(4) { animation-delay: .20s; }
+  .section:nth-child(5) { animation-delay: .25s; }
+  .section:nth-child(6) { animation-delay: .30s; }
+  .section:nth-child(7) { animation-delay: .35s; }
+  .section:nth-child(8) { animation-delay: .40s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .section-icon {
+    width: 36px;
+    height: 36px;
+    background: var(--red-soft);
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 1rem;
+  }
+  .section.highlight .section-icon {
+    background: rgba(59,130,246,0.15);
+  }
+
+  h2 {
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--white);
+  }
+
+  p, li {
+    color: var(--g300);
+    font-size: .88rem;
+    margin-bottom: 8px;
+  }
+  li:last-child, p:last-child { margin-bottom: 0; }
+
+  ul {
+    padding-left: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 0;
+  }
+  li::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: var(--red);
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 8px;
+  }
+
+  /* Collected data cards */
+  .data-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  @media (max-width: 500px) { .data-grid { grid-template-columns: 1fr; } }
+
+  .data-card {
+    background: var(--g800);
+    border: 1px solid var(--g700);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .data-card-icon { font-size: .9rem; flex-shrink: 0; margin-top: 1px; }
+  .data-card-text { color: var(--g300); font-size: .84rem; margin: 0; }
+
+  .no-payment {
+    margin-top: 12px;
+    background: rgba(34,197,94,0.07);
+    border: 1px solid rgba(34,197,94,0.2);
+    border-radius: 10px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--g300);
+    font-size: .85rem;
+  }
+
+  /* Third party table */
+  .third-party-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 4px;
+  }
+  .tp-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--g800);
+    border: 1px solid var(--g700);
+    border-radius: 10px;
+    padding: 12px 16px;
+  }
+  .tp-icon { font-size: .9rem; flex-shrink: 0; }
+  .tp-info { flex: 1; }
+  .tp-name { font-size: .88rem; font-weight: 800; color: var(--white); display: block; }
+  .tp-desc { font-size: .8rem; color: var(--g400); }
+  .tp-badge {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: .05em;
+    padding: 3px 8px;
+    border-radius: 20px;
+    background: rgba(34,197,94,0.1);
+    color: #4ade80;
+    border: 1px solid rgba(34,197,94,0.2);
+    white-space: nowrap;
+  }
+  .tp-badge.neutral {
+    background: rgba(156,163,175,0.1);
+    color: var(--g400);
+    border-color: rgba(156,163,175,0.2);
+  }
+
+  /* Rights highlight */
+  .rights-box {
+    background: var(--g800);
+    border: 1px solid var(--g700);
+    border-radius: 10px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-top: 4px;
+  }
+  .rights-icon { font-size: 1.3rem; flex-shrink: 0; }
+  .rights-text { color: var(--g300); font-size: .87rem; margin: 0; }
+  .rights-text a { color: var(--red); font-weight: 700; text-decoration: none; }
+  .rights-text a:hover { text-decoration: underline; }
+
+  .footer-divider {
+    border: none;
+    border-top: 1px solid var(--g800);
+    margin: 48px 0 24px;
+  }
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .footer-copy { color: #4b5563; font-size: .78rem; font-weight: 600; }
+
+  .discord-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--red);
+    color: #fff;
+    text-decoration: none;
+    font-weight: 800;
+    font-size: .8rem;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    padding: 9px 18px;
+    border-radius: 8px;
+    transition: opacity .2s, transform .15s;
+  }
+  .discord-btn:hover { opacity: .85; transform: translateY(-1px); }
+
+  @media (max-width: 500px) {
+    .container { padding: 40px 16px 80px; }
+    .section { padding: 22px 18px; }
+    .footer-row { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <a class="back" href="/">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M9 11L5 7l4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    Back to Home
+  </a>
+
+  <div class="header">
+    <h1>Privacy <span>Policy</span></h1>
+    <div class="meta">Last updated: March 2026</div>
+    <div class="intro">
+      Your privacy matters to us. This page explains exactly what information we collect, why we need it, and how we keep it safe. No surprises. 🔒
+    </div>
+  </div>
+
+  <!-- Information We Collect -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">📥</div>
+      <h2>Information We Collect</h2>
+    </div>
+    <p style="margin-bottom:14px">When you submit an order form, we only collect what's necessary to fulfill your request:</p>
+    <div class="data-grid">
+      <div class="data-card">
+        <span class="data-card-icon">🎮</span>
+        <p class="data-card-text">Your <strong style="color:#fff">Roblox username</strong></p>
+      </div>
+      <div class="data-card">
+        <span class="data-card-icon">🔗</span>
+        <p class="data-card-text">Your <strong style="color:#fff">preferred social platform</strong> & username/link</p>
+      </div>
+      <div class="data-card">
+        <span class="data-card-icon">📝</span>
+        <p class="data-card-text"><strong style="color:#fff">Project details</strong> — concept, style, deadline, references</p>
+      </div>
+      <div class="data-card">
+        <span class="data-card-icon">🕐</span>
+        <p class="data-card-text"><strong style="color:#fff">Submission timestamp</strong> for order tracking</p>
+      </div>
+    </div>
+    <div class="no-payment">
+      <span>✅</span>
+      <span>We <strong style="color:#fff">never</strong> collect payment details — all payments are handled securely by PayPal or Ko-fi.</span>
+    </div>
+  </div>
+
+  <!-- How We Use It -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🔧</div>
+      <h2>How We Use Your Information</h2>
+    </div>
+    <ul>
+      <li>To process and fulfill your design order accurately</li>
+      <li>To reach you via your chosen platform with updates and previews</li>
+      <li>To continuously improve the quality of our services</li>
+    </ul>
+  </div>
+
+  <!-- Data Storage -->
+  <div class="section highlight">
+    <div class="section-header">
+      <div class="section-icon">🗄️</div>
+      <h2>Data Storage</h2>
+    </div>
+    <p>Your order data is stored securely in <strong style="color:#fff">Google Firebase Firestore</strong> — a trusted, enterprise-grade cloud database. Firebase is fully compliant with <strong style="color:#fff">GDPR</strong> and international data protection standards.</p>
+    <p style="margin-top:10px">Data is retained only for as long as needed to complete and manage your order, after which it can be deleted upon request.</p>
+  </div>
+
+  <!-- Cookies -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🍪</div>
+      <h2>Cookies & Local Storage</h2>
+    </div>
+    <p>We use your browser's <strong style="color:#fff">localStorage</strong> solely for two lightweight purposes:</p>
+    <ul style="margin-top:10px">
+      <li>To remember your <strong style="color:#fff">first-visit discount eligibility</strong></li>
+      <li>To temporarily save your <strong style="color:#fff">form draft</strong> so you don't lose progress</li>
+    </ul>
+    <p style="margin-top:12px; padding: 10px 14px; background: rgba(34,197,94,0.07); border:1px solid rgba(34,197,94,0.2); border-radius:8px;">
+      ✅ <strong style="color:#fff">No tracking cookies.</strong> We don't monitor your browsing or build profiles about you.
+    </p>
+  </div>
+
+  <!-- Third-Party Services -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">🔗</div>
+      <h2>Third-Party Services</h2>
+    </div>
+    <div class="third-party-list">
+      <div class="tp-row">
+        <span class="tp-icon">🔥</span>
+        <div class="tp-info">
+          <span class="tp-name">Google Firebase</span>
+          <span class="tp-desc">Secure order data storage</span>
+        </div>
+        <span class="tp-badge">GDPR Compliant</span>
+      </div>
+      <div class="tp-row">
+        <span class="tp-icon">💳</span>
+        <div class="tp-info">
+          <span class="tp-name">PayPal / Ko-fi</span>
+          <span class="tp-desc">Payment processing — we never see your payment details</span>
+        </div>
+        <span class="tp-badge">Secure</span>
+      </div>
+      <div class="tp-row">
+        <span class="tp-icon">✏️</span>
+        <div class="tp-info">
+          <span class="tp-name">Google Fonts / Font Awesome</span>
+          <span class="tp-desc">Fonts and icons only</span>
+        </div>
+        <span class="tp-badge neutral">No Tracking</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Your Rights -->
+  <div class="section">
+    <div class="section-header">
+      <div class="section-icon">⚖️</div>
+      <h2>Your Rights</h2>
+    </div>
+    <p style="margin-bottom:14px">You're in control of your data. You can request deletion of your information at any time — no hassle, no questions asked.</p>
+    <div class="rights-box">
+      <span class="rights-icon">💬</span>
+      <p class="rights-text">
+        To request data deletion or ask any privacy-related questions, reach out via
+        <a href="https://discord.gg/sghJet3uNF" target="_blank">RealAyonato on Discord</a>
+        or through the order form on the main page.
+      </p>
+    </div>
+  </div>
+
+  <hr class="footer-divider">
+  <div class="footer-row">
+    <span class="footer-copy">© 2026 RealAyonato. All rights reserved.</span>
+    <a class="discord-btn" href="https://discord.gg/sghJet3uNF" target="_blank">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.056a19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03z"/></svg>
+      Contact via Discord
+    </a>
+  </div>
+
+</div>
+</body>
+</html>

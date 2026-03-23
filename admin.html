@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin — RealAyonato.art</title>
+<link rel="icon" href="https://i.postimg.cc/qqJzc822/logo.webp">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0a0a0a;color:#fff;font-family:'Nunito',sans-serif;min-height:100vh}
+:root{--red:#dc2626;--rl:#ef4444;--g900:#111;--g800:#1a1a1a;--g700:#252525;--g500:#6b7280;--g400:#9ca3af;--g300:#d1d5db}
+::-webkit-scrollbar{width:5px}::-webkit-scrollbar-thumb{background:var(--red);border-radius:3px}
+
+/* LOGIN */
+#ls{position:fixed;inset:0;background:#0a0a0a;display:flex;align-items:center;justify-content:center;z-index:999}
+.lb{background:var(--g900);border:1px solid var(--g800);border-radius:16px;padding:40px;width:360px;text-align:center}
+.lb img{width:64px;height:64px;border-radius:50%;margin:0 auto 16px;border:2px solid rgba(220,38,38,.4);display:block}
+.lb-title{font-size:1.4rem;font-weight:800;margin-bottom:4px}
+.lb-sub{color:var(--g500);font-size:.85rem;margin-bottom:28px}
+.lb-inp{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--g700);border-radius:8px;padding:12px 16px;color:#fff;font-size:.95rem;font-family:inherit;margin-bottom:12px}
+.lb-inp:focus{outline:none;border-color:var(--red)}
+.lb-btn{width:100%;padding:13px;background:var(--red);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:.95rem;cursor:pointer;font-family:inherit;transition:background .2s}
+.lb-btn:hover{background:var(--rl)}
+.lb-err{color:#f87171;font-size:.8rem;margin-top:10px;display:none}
+
+/* DASHBOARD */
+#dash{display:none}
+.ah{background:var(--g900);border-bottom:1px solid var(--g800);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.ah-logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1rem}
+.ah-logo img{width:32px;height:32px;border-radius:50%;border:2px solid rgba(220,38,38,.3)}
+.ah-logo span{color:var(--red)}
+.ah-acts{display:flex;align-items:center;gap:8px}
+.ab{padding:8px 14px;border-radius:7px;font-size:.78rem;font-weight:700;cursor:pointer;font-family:inherit;border:none;transition:all .2s}
+.ab-out{background:none;border:1px solid var(--g700);color:var(--g400)}
+.ab-out:hover{border-color:var(--red);color:var(--red)}
+.ab-red{background:var(--red);color:#fff}
+.ab-red:hover{background:var(--rl)}
+.ab-green{background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.25)}
+.ab-green:hover{background:rgba(34,197,94,.25)}
+main{padding:28px 24px;max-width:1300px;margin:0 auto}
+
+/* STATS */
+.sr{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:28px}
+.sb{background:var(--g900);border:1px solid var(--g800);border-radius:10px;padding:16px 18px}
+.sb .v{font-size:1.8rem;font-weight:800}
+.sb .l{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--g500);margin-top:3px}
+.sn .v{color:#f87171}.sp .v{color:#eab308}.sd .v{color:#22c55e}.sr2 .v{color:var(--rl)}
+
+/* FILTERS */
+.fr{display:flex;align-items:center;gap:10px;margin-bottom:20px;flex-wrap:wrap}
+.ft{padding:7px 16px;border-radius:7px;font-size:.78rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:rgba(255,255,255,.04);color:var(--g400);border:1px solid transparent;cursor:pointer;transition:all .2s}
+.ft:hover{color:#fff}.ft.act{background:var(--red);color:#fff}
+.si{background:rgba(255,255,255,.05);border:1px solid var(--g700);border-radius:8px;padding:8px 14px;color:#fff;font-size:.85rem;font-family:inherit;width:220px}
+.si:focus{outline:none;border-color:var(--red)}
+.ss{background:rgba(255,255,255,.05);border:1px solid var(--g700);border-radius:8px;padding:8px 12px;color:#fff;font-size:.82rem;font-family:inherit;cursor:pointer}
+.ss:focus{outline:none}
+.ss option{background:#111}
+
+/* ORDERS GRID */
+.og{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.oc{background:var(--g900);border:1px solid var(--g800);border-radius:10px;overflow:hidden;cursor:pointer;transition:border-color .2s,transform .15s}
+.oc:hover{border-color:rgba(220,38,38,.35);transform:translateY(-2px)}
+.och{padding:14px 16px;border-bottom:1px solid var(--g800);display:flex;align-items:center;justify-content:space-between}
+.oc-pkg{display:flex;align-items:center;gap:8px;font-weight:700;font-size:.92rem}
+.os{padding:3px 10px;border-radius:999px;font-size:.65rem;font-weight:800;text-transform:uppercase;letter-spacing:.08em}
+.sn2{background:rgba(248,113,113,.15);color:#f87171;border:1px solid rgba(248,113,113,.25)}
+.sp2{background:rgba(234,179,8,.12);color:#eab308;border:1px solid rgba(234,179,8,.2)}
+.sd2{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
+.ocb{padding:14px 16px}
+.ocr{display:flex;align-items:flex-start;gap:8px;margin-bottom:7px;font-size:.83rem;color:var(--g300)}
+.ocr i{color:var(--g500);width:14px;flex-shrink:0;margin-top:2px;font-size:.78rem}
+.ocl{color:var(--g500);font-size:.72rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-right:4px}
+.ocf{padding:10px 16px;border-top:1px solid var(--g800);display:flex;align-items:center;justify-content:space-between;font-size:.75rem;color:var(--g500)}
+.ocp{font-weight:800;color:var(--rl)}
+.es{text-align:center;padding:60px;color:var(--g500)}
+.es i{font-size:3rem;margin-bottom:12px;display:block;color:var(--g700)}
+
+/* DETAIL MODAL */
+#dov{position:fixed;inset:0;background:rgba(0,0,0,.88);backdrop-filter:blur(12px);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+#dov.open{display:flex}
+.db{background:var(--g900);border:1px solid var(--g800);border-radius:14px;width:100%;max-width:620px;max-height:90vh;overflow-y:auto;display:flex;flex-direction:column}
+.db::-webkit-scrollbar{width:4px}
+.db::-webkit-scrollbar-thumb{background:var(--g700)}
+.dh{padding:20px 24px;border-bottom:1px solid var(--g800);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;background:var(--g900);z-index:5}
+.dt{font-size:1.1rem;font-weight:800}
+.dx{width:30px;height:30px;border-radius:50%;border:1px solid var(--g700);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.85rem;transition:all .2s}
+.dx:hover{border-color:var(--red);color:var(--red)}
+.dbd{padding:22px 24px;flex:1}
+.dst{font-size:.68rem;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:12px;padding-bottom:7px;border-bottom:1px solid rgba(220,38,38,.12)}
+.dsec{margin-bottom:20px}
+.df{margin-bottom:10px}
+.dfl{font-size:.7rem;font-weight:800;letter-spacing:.07em;text-transform:uppercase;color:var(--g500);margin-bottom:3px}
+.dfv{font-size:.9rem;color:var(--g300);line-height:1.6}
+.dft{padding:16px 24px;border-top:1px solid var(--g800);display:flex;gap:8px;flex-wrap:wrap;position:sticky;bottom:0;background:var(--g900)}
+.stb{padding:9px 16px;border-radius:7px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;border:1px solid;transition:all .2s}
+.stn{background:rgba(248,113,113,.1);color:#f87171;border-color:rgba(248,113,113,.25)}
+.stn:hover{background:rgba(248,113,113,.2)}
+.stp{background:rgba(234,179,8,.1);color:#eab308;border-color:rgba(234,179,8,.2)}
+.stp:hover{background:rgba(234,179,8,.2)}
+.std{background:rgba(34,197,94,.1);color:#22c55e;border-color:rgba(34,197,94,.2)}
+.std:hover{background:rgba(34,197,94,.2)}
+.stx{background:rgba(220,38,38,.1);color:#f87171;border-color:rgba(220,38,38,.2);margin-left:auto}
+.stx:hover{background:rgba(220,38,38,.2)}
+
+/* SETTINGS MODAL */
+#set-ov{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);z-index:300;display:none;align-items:center;justify-content:center;padding:20px}
+#set-ov.open{display:flex}
+.set-box{background:var(--g900);border:1px solid var(--g800);border-radius:14px;width:100%;max-width:480px;max-height:88vh;overflow-y:auto}
+.set-head{padding:18px 22px;border-bottom:1px solid var(--g800);display:flex;align-items:center;justify-content:space-between;font-weight:800;font-size:1rem;position:sticky;top:0;background:var(--g900)}
+.set-sec{padding:20px 22px;border-bottom:1px solid var(--g800)}
+.set-sec:last-child{border-bottom:none}
+.set-lbl{font-size:.68rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:14px}
+.set-row{margin-bottom:12px}
+.set-row label{display:block;font-size:.75rem;font-weight:700;color:var(--g400);margin-bottom:4px}
+.set-inp{width:100%;background:rgba(255,255,255,.05);border:1px solid var(--g700);border-radius:8px;padding:10px 14px;color:#fff;font-size:.85rem;font-family:inherit}
+.set-inp:focus{outline:none;border-color:var(--red)}
+.set-btn{width:100%;padding:12px;background:var(--red);color:#fff;border:none;border-radius:8px;font-weight:800;font-size:.88rem;cursor:pointer;font-family:inherit;transition:background .2s;margin-top:4px}
+.set-btn:hover{background:var(--rl)}
+.set-note{font-size:.76rem;color:var(--g500);margin-top:6px;line-height:1.6}
+.wa-test-btn{width:100%;padding:10px;background:rgba(37,211,102,.15);color:#25d366;border:1px solid rgba(37,211,102,.3);border-radius:8px;font-weight:700;font-size:.82rem;cursor:pointer;font-family:inherit;transition:all .2s;margin-top:8px}
+.wa-test-btn:hover{background:rgba(37,211,102,.25)}
+#toast-wrap{position:fixed;bottom:24px;right:24px;z-index:999;display:flex;flex-direction:column;gap:10px;align-items:flex-end}
+.toast{background:#111;border:1px solid var(--g800);border-left:4px solid var(--red);border-radius:10px;padding:14px 18px;max-width:320px;font-size:.85rem;font-weight:600;display:flex;align-items:center;gap:10px;animation:toastIn .3s ease;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+@keyframes toastIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:none}}
+.toast.fade{animation:toastOut .3s ease forwards}
+@keyframes toastOut{to{opacity:0;transform:translateX(20px)}}
+.toast i{color:var(--red);flex-shrink:0}
+
+@media(max-width:768px){
+  .sr{grid-template-columns:repeat(2,1fr)}
+  .og{grid-template-columns:1fr}
+  .fr{gap:6px}
+  .si{width:100%}
+  .ah{flex-wrap:wrap;gap:8px}
+}
+</style>
+</head>
+<body>
+
+<div id="toast-wrap"></div>
+
+<!-- SETTINGS MODAL -->
+<div id="set-ov" onclick="if(event.target===this)closeSettings()">
+  <div class="set-box">
+    <div class="set-head">
+      <span><i class="fas fa-cog" style="color:var(--red);margin-right:8px"></i>Settings</span>
+      <div class="dx" onclick="closeSettings()" style="width:28px;height:28px;border-radius:50%;border:1px solid var(--g700);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:.8rem;color:var(--g500)"><i class="fas fa-times"></i></div>
+    </div>
+
+    <!-- Availability -->
+    <div class="set-sec">
+      <div class="set-lbl">Availability Status</div>
+      <div style="display:flex;gap:10px">
+        <button onclick="setAvail(false)" id="avail-open-btn" style="flex:1;padding:12px;border-radius:8px;font-weight:800;font-size:.82rem;cursor:pointer;font-family:inherit;background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3);transition:all .2s">
+          ● Open for Orders
+        </button>
+        <button onclick="setAvail(true)" id="avail-busy-btn" style="flex:1;padding:12px;border-radius:8px;font-weight:800;font-size:.82rem;cursor:pointer;font-family:inherit;background:rgba(220,38,38,.1);color:#f87171;border:1px solid rgba(220,38,38,.2);transition:all .2s">
+          ● Busy / Taking Longer
+        </button>
+      </div>
+      <p class="set-note">This changes the badge shown to clients on the Contact section of your website.</p>
+    </div>
+
+    <!-- WhatsApp Notifications -->
+    <div class="set-sec">
+      <div class="set-lbl"><i class="fab fa-whatsapp" style="margin-right:5px"></i>WhatsApp Notifications</div>
+      <div class="set-row">
+        <label>Callmebot API Key</label>
+        <input type="text" class="set-inp" id="wa-key-inp" placeholder="Your Callmebot API key">
+      </div>
+      <div class="set-row">
+        <label>Your WhatsApp Number (with country code)</label>
+        <input type="text" class="set-inp" id="wa-num-inp" placeholder="e.g. 213631115324">
+      </div>
+      <button class="set-btn" onclick="saveWASettings()"><i class="fas fa-save"></i> Save WhatsApp Settings</button>
+      <button class="wa-test-btn" onclick="sendTestWA()"><i class="fab fa-whatsapp"></i> Send Test Message</button>
+      <p class="set-note">
+        Get your free API key at <a href="https://www.callmebot.com/blog/free-api-whatsapp-messages/" target="_blank" style="color:var(--red)">callmebot.com</a> — 
+        Send this message to <strong style="color:#fff">+34 644 65 62 20</strong> on WhatsApp: <code style="background:rgba(255,255,255,.07);padding:2px 6px;border-radius:4px;font-size:.8rem">I allow callmebot to send me messages</code>
+      </p>
+    </div>
+
+    <!-- Change Password -->
+    <div class="set-sec">
+      <div class="set-lbl">Admin Password</div>
+      <div class="set-row">
+        <label>New Password</label>
+        <input type="password" class="set-inp" id="new-pwd-inp" placeholder="Enter new password">
+      </div>
+      <div class="set-row">
+        <label>Confirm Password</label>
+        <input type="password" class="set-inp" id="confirm-pwd-inp" placeholder="Confirm new password">
+      </div>
+      <button class="set-btn" onclick="changePassword()"><i class="fas fa-lock"></i> Update Password</button>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN -->
+<div id="ls">
+  <div class="lb">
+    <img src="https://i.postimg.cc/qqJzc822/logo.webp" alt="logo" width="64" height="64">
+    <div class="lb-title">Admin Panel</div>
+    <p class="lb-sub">RealAyonato.art — Sign in to continue</p>
+    <input type="email" class="lb-inp" id="login-email" placeholder="Admin email" value="orders@realayonato.art" onkeydown="if(event.key==='Enter')document.getElementById('pwd').focus()">
+    <input type="password" class="lb-inp" id="pwd" placeholder="Password" onkeydown="if(event.key==='Enter')login()">
+    <button class="lb-btn" onclick="login()" id="login-btn"><i class="fas fa-lock-open"></i> Enter Dashboard</button>
+    <div class="lb-err" id="lb-err">Incorrect credentials. Try again.</div>
+  </div>
+</div>
+
+<!-- DASHBOARD -->
+<div id="dash">
+  <header class="ah">
+    <div class="ah-logo">
+      <img src="https://i.postimg.cc/qqJzc822/logo.webp" alt="logo" width="32" height="32">
+      RealAyonato<span>.art</span>
+      <span style="color:var(--g500);font-size:.75rem;font-weight:600;margin-left:4px">/ Admin</span>
+    </div>
+    <div class="ah-acts">
+      <button class="ab" id="avail-toggle" onclick="toggleAvailability()" style="background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)">
+        <span id="avail-dot" style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#22c55e;margin-right:6px"></span>
+        <span id="avail-label">Open for Orders</span>
+      </button>
+      <button class="ab ab-green" onclick="exportCSV()"><i class="fas fa-download"></i> Export CSV</button>
+      <button class="ab ab-out" onclick="openSettings()"><i class="fas fa-cog"></i> Settings</button>
+      <button class="ab ab-out" onclick="loadOrders()"><i class="fas fa-sync-alt"></i> Refresh</button>
+      <button class="ab ab-out" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="sr">
+      <div class="sb"><div class="v" id="st-total">—</div><div class="l">Total Orders</div></div>
+      <div class="sb sn"><div class="v" id="st-new">—</div><div class="l">New</div></div>
+      <div class="sb sp"><div class="v" id="st-prog">—</div><div class="l">In Progress</div></div>
+      <div class="sb sd"><div class="v" id="st-done">—</div><div class="l">Done</div></div>
+      <div class="sb sr2"><div class="v" id="st-rev">—</div><div class="l">Revenue ($)</div></div>
+    </div>
+    <!-- Weekly stats -->
+    <div style="display:flex;gap:12px;margin-bottom:24px;flex-wrap:wrap">
+      <div style="background:var(--g900);border:1px solid var(--g800);border-radius:8px;padding:12px 18px;font-size:.82rem;font-weight:700;color:var(--g400)">
+        📅 This week: <span id="wk-cur" style="color:#fff">—</span> orders
+        <span id="wk-diff" style="margin-left:8px;font-size:.75rem"></span>
+      </div>
+      <div style="background:var(--g900);border:1px solid var(--g800);border-radius:8px;padding:12px 18px;font-size:.82rem;font-weight:700;color:var(--g400)">
+        💰 This week: <span id="wk-rev" style="color:var(--rl)">—</span>
+      </div>
+    </div>
+    <div class="fr">
+      <button class="ft act" data-filter="all">All</button>
+      <button class="ft" data-filter="new">New</button>
+      <button class="ft" data-filter="in-progress">In Progress</button>
+      <button class="ft" data-filter="done">Done</button>
+      <input type="text" class="si" id="si" placeholder="🔍 Search username, platform..." oninput="renderOrders()">
+      <select class="ss" id="ss" onchange="renderOrders()">
+        <option value="newest">Newest first</option>
+        <option value="oldest">Oldest first</option>
+        <option value="price-high">Price: High to Low</option>
+        <option value="price-low">Price: Low to High</option>
+      </select>
+    </div>
+    <div class="og" id="og"><div class="es"><i class="fas fa-spinner fa-spin"></i><p>Loading orders...</p></div></div>
+  </main>
+</div>
+
+<!-- DETAIL MODAL -->
+<div id="dov" onclick="if(event.target===this)closeD()">
+  <div class="db">
+    <div class="dh"><div class="dt" id="d-title">Order Details</div><div class="dx" onclick="closeD()"><i class="fas fa-times"></i></div></div>
+    <div class="dbd" id="d-body"></div>
+    <div class="dft" id="d-foot"></div>
+  </div>
+</div>
+
+<script>
+// ── FIREBASE ──
+firebase.initializeApp({
+  apiKey:"AIzaSyAtCv2eY1QcUypMd0M2l-LHQMtayYcpQrE",
+  authDomain:"realayonato-7a6b3.firebaseapp.com",
+  projectId:"realayonato-7a6b3",
+  storageBucket:"realayonato-7a6b3.firebasestorage.app",
+  messagingSenderId:"549554067429",
+  appId:"1:549554067429:web:ee29fff9c62ea35ed8c10c"
+});
+const db=firebase.firestore();
+const auth=firebase.auth();
+
+// ── FIREBASE AUTH ──
+auth.onAuthStateChanged(user => {
+  if (user) {
+    document.getElementById('ls').style.display='none';
+    document.getElementById('dash').style.display='block';
+    loadOrders();startRealtime();loadAvailability();loadWASettings();
+    document.getElementById('lb-err').style.display='none';
+  } else {
+    document.getElementById('ls').style.display='flex';
+    document.getElementById('dash').style.display='none';
+  }
+});
+
+// ── LOGIN FUNCTION (FIXED) ──
+async function login() {
+  const email = document.getElementById('login-email').value.trim();
+  const password = document.getElementById('pwd').value.trim();
+  const errEl = document.getElementById('lb-err');
+  const btn = document.getElementById('login-btn');
+  
+  errEl.style.display='none';
+  
+  if (!email || !password) {
+    errEl.textContent = 'Please enter email and password.';
+    errEl.style.display='block';
+    return;
+  }
+  
+  if (!email.includes('@')) {
+    errEl.textContent = 'Please enter a valid email address.';
+    errEl.style.display='block';
+    return;
+  }
+  
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing in...';
+  
+  try {
+    await auth.signInWithEmailAndPassword(email, password);
+    sessionStorage.setItem('ra_admin','1');
+  } catch(e) {
+    errEl.textContent = 'Wrong email or password.';
+    errEl.style.display='block';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-lock-open"></i> Enter Dashboard';
+  }
+}
+
+function logout() { 
+  auth.signOut().catch(()=>{}); 
+  sessionStorage.removeItem('ra_admin');
+  location.reload(); 
+}
+
+// ── CHANGE PASSWORD ──
+async function changePassword() {
+  const np = document.getElementById('new-pwd-inp').value;
+  const cp = document.getElementById('confirm-pwd-inp').value;
+  if (!np || np.length < 6) { showToast('Password must be at least 6 characters.','red'); return; }
+  if (np !== cp) { showToast('Passwords do not match.','red'); return; }
+  const user = auth.currentUser;
+  if (user) {
+    try { await user.updatePassword(np); showToast('Password updated!','green'); }
+    catch(e) { showToast('Error: '+e.message,'red'); }
+  } else {
+    showToast('Login with Firebase email first to change password.','red');
+  }
+}
+
+// ── DATA ──
+let allOrders=[], curFilter='all', prevCount=0;
+
+async function loadOrders(){
+  try{
+    const snap=await db.collection('orders').orderBy('createdAt','desc').get();
+    allOrders=snap.docs.map(d=>({id:d.id,...d.data()}));
+    updateStats();renderOrders();
+  }catch(e){document.getElementById('og').innerHTML=`<div class="es"><i class="fas fa-exclamation-triangle" style="color:#f87171"></i><p>Error: Check Firestore rules.</p></div>`;}
+}
+
+function startRealtime(){
+  db.collection('orders').onSnapshot(snap=>{
+    const newOrders=snap.docs.map(d=>({id:d.id,...d.data()})).sort((a,b)=>(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0));
+    if(prevCount>0&&newOrders.length>prevCount){
+      const diff=newOrders.length-prevCount;
+      showToast(`📦 ${diff} new order${diff>1?'s':''} received!`,'green');
+      const newest = newOrders[0];
+      if(newest && waKey) {
+        const msg = '🎨 New order on RealAyonato.art!\n' +
+          '📦 Package: ' + (newest.packageName||'Unknown') + '\n' +
+          '👤 Roblox: ' + (newest.robloxUsername||'—') + '\n' +
+          '💬 Platform: ' + (newest.platform||'—') + '\n' +
+          '💰 Price: $' + (newest.price||0);
+        sendWAMessage(msg);
+      }
+    }
+    prevCount=newOrders.length;
+    allOrders=newOrders;
+    updateStats();renderOrders();
+  });
+}
+
+function updateStats(){
+  const t=allOrders.length,nw=allOrders.filter(o=>o.status==='new').length,pg=allOrders.filter(o=>o.status==='in-progress').length,dn=allOrders.filter(o=>o.status==='done').length,rv=allOrders.reduce((s,o)=>o.status==='done'?s+(o.price||0):s,0);
+  document.getElementById('st-total').textContent=t;
+  document.getElementById('st-new').textContent=nw;
+  document.getElementById('st-prog').textContent=pg;
+  document.getElementById('st-done').textContent=dn;
+  document.getElementById('st-rev').textContent='$'+rv;
+  const now=Date.now(), weekMs=7*24*60*60*1000, prevWeekMs=14*24*60*60*1000;
+  const thisWeek=allOrders.filter(o=>o.createdAt&&(now-o.createdAt.seconds*1000)<weekMs);
+  const lastWeek=allOrders.filter(o=>o.createdAt&&(now-o.createdAt.seconds*1000)>=weekMs&&(now-o.createdAt.seconds*1000)<prevWeekMs);
+  const wkRev=thisWeek.reduce((s,o)=>o.status==='done'?s+(o.price||0):s,0);
+  document.getElementById('wk-cur').textContent=thisWeek.length;
+  document.getElementById('wk-rev').textContent='$'+wkRev;
+  const diff=thisWeek.length-lastWeek.length;
+  const diffEl=document.getElementById('wk-diff');
+  if(diff>0) diffEl.innerHTML=`<span style="color:#22c55e">▲ ${diff} vs last week</span>`;
+  else if(diff<0) diffEl.innerHTML=`<span style="color:#f87171">▼ ${Math.abs(diff)} vs last week</span>`;
+  else diffEl.innerHTML=`<span style="color:var(--g500)">= same as last week</span>`;
+}
+
+function renderOrders(){
+  const search=document.getElementById('si').value.toLowerCase();
+  const sort=document.getElementById('ss').value;
+  let orders=allOrders.filter(o=>{
+    const mf=curFilter==='all'||o.status===curFilter;
+    const ms=!search||(o.robloxUsername||'').toLowerCase().includes(search)||(o.platform||'').toLowerCase().includes(search)||(o.platformUsername||'').toLowerCase().includes(search)||(o.packageName||'').toLowerCase().includes(search);
+    return mf&&ms;
+  });
+  orders.sort((a,b)=>{
+    if(sort==='newest')return(b.createdAt?.seconds||0)-(a.createdAt?.seconds||0);
+    if(sort==='oldest')return(a.createdAt?.seconds||0)-(b.createdAt?.seconds||0);
+    if(sort==='price-high')return(b.price||0)-(a.price||0);
+    if(sort==='price-low')return(a.price||0)-(b.price||0);
+    return 0;
+  });
+  const og=document.getElementById('og');
+  if(!orders.length){og.innerHTML=`<div class="es"><i class="fas fa-inbox"></i><p>No orders found.</p></div>`;return;}
+  og.innerHTML=orders.map(o=>{
+    const sc=o.status==='done'?'sd2':o.status==='in-progress'?'sp2':'sn2';
+    const sl=o.status==='done'?'Done':o.status==='in-progress'?'In Progress':'New';
+    const icon=o.packageName?.includes('Single')?'🚀':o.packageName?.includes('Creator')?'👑':'🔥';
+    const date=o.createdAt?new Date(o.createdAt.seconds*1000).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}):'—';
+    return `<div class="oc" onclick="openD('${o.id}')">
+      <div class="och"><div class="oc-pkg"><span>${icon}</span>${o.packageName||'—'}</div><span class="os ${sc}">${sl}</span></div>
+      <div class="ocb">
+        <div class="ocr"><i class="fas fa-gamepad"></i><div><span class="ocl">Roblox:</span>${o.robloxUsername||'—'}</div></div>
+        <div class="ocr"><i class="fas fa-comment-dots"></i><div><span class="ocl">${o.platform||'—'}:</span>${o.platformUsername||'—'}</div></div>
+        ${o.deadline?`<div class="ocr"><i class="fas fa-clock"></i><div><span class="ocl">Deadline:</span>${o.deadline}</div></div>`:''}
+      </div>
+      <div class="ocf"><span>${date}</span><span class="ocp">$${o.price||0}${o.isFirstOrder?' <span style="color:var(--g500);font-weight:600;font-size:.68rem">(1st)</span>':''}</span></div>
+    </div>`;
+  }).join('');
+}
+
+document.querySelectorAll('.ft').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.ft').forEach(b=>b.classList.remove('act'));btn.classList.add('act');curFilter=btn.dataset.filter;renderOrders();}));
+
+// ── DETAIL ──
+const MC={
+  'Discord':{url:'https://discord.gg/sghJet3uNF'},
+  'Instagram':{url:'https://instagram.com/'},
+  'TikTok':{url:'https://www.tiktok.com/@'},
+  'X / Twitter':{url:'https://x.com/'},
+  'Reddit':{url:'https://www.reddit.com/user/'},
+  'WhatsApp':{url:'https://wa.me/'}
+};
+
+function openD(id){
+  const o=allOrders.find(x=>x.id===id); if(!o) return;
+  const icon=o.packageName?.includes('Single')?'🚀':o.packageName?.includes('Creator')?'👑':'🔥';
+  const date=o.createdAt?new Date(o.createdAt.seconds*1000).toLocaleString('en-GB'):'—';
+  const sc=o.status==='done'?'sd2':o.status==='in-progress'?'sp2':'sn2';
+  const sl=o.status==='done'?'Done':o.status==='in-progress'?'In Progress':'New';
+  const platUrl=MC[o.platform]?.url||'';
+  const platLink=platUrl?`<a href="${platUrl}${o.platformUsername||''}" target="_blank" rel="noopener" style="color:#ef4444;text-decoration:underline">${o.platformUsername||'—'}</a>`:o.platformUsername||'—';
+  document.getElementById('d-title').textContent=`${icon} ${o.packageName||'Order'} — #${id.slice(-6).toUpperCase()}`;
+  document.getElementById('d-body').innerHTML=`
+    <div class="dsec"><div class="dst">Order Info</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        ${df('Status',`<span class="os ${sc}">${sl}</span>`)}
+        ${df('Price',`<strong style="color:#ef4444">$${o.price||0}</strong>${o.isFirstOrder?' (first order 50% off)':''}`)}
+        ${df('Package',o.packageName||'—')}
+        ${df('Submitted',date)}
+      </div>
+    </div>
+    <div class="dsec"><div class="dst">Client Info</div>
+      ${df('Roblox Username',o.robloxUsername||'—')}
+      ${df('Platform',o.platform||'—')}
+      ${df('Platform Contact',platLink)}
+    </div>
+    <div class="dsec"><div class="dst">Project Details</div>
+      ${o.concept?df('Concept / Description',o.concept):''}
+      ${o.cinematicDirection?df('Cinematic Direction',o.cinematicDirection):''}
+      ${o.style?df('Style',o.style):''}
+      ${o.deadline?df('Deadline',o.deadline):''}
+      ${o.otherUsernames?df('Other Usernames',o.otherUsernames):''}
+    </div>
+    ${(o.bannerConcept||o.profilePicStyle||o.deliveryPref||o.references||o.notes)?`
+    <div class="dsec"><div class="dst">Additional Info</div>
+      ${o.bannerConcept?df('Banner Concept',o.bannerConcept):''}
+      ${o.profilePicStyle?df('Profile Picture Style',o.profilePicStyle):''}
+      ${o.deliveryPref?df('Delivery Preference',o.deliveryPref):''}
+      ${o.references?df('References',o.references):''}
+      ${o.notes?df('Notes',o.notes):''}
+    </div>`:''}`;
+  document.getElementById('d-foot').innerHTML=`
+    <button class="stb stn" onclick="setStatus('${id}','new')">🔴 New</button>
+    <button class="stb stp" onclick="setStatus('${id}','in-progress')">🟡 In Progress</button>
+    <button class="stb std" onclick="setStatus('${id}','done')">🟢 Done</button>
+    <button class="stb stx" onclick="deleteOrder('${id}')">🗑 Delete</button>
+    <div style="width:100%;margin-top:10px;display:flex;gap:8px">
+      <textarea id="admin-note-inp" placeholder="Add a private note about this order..." style="flex:1;background:rgba(255,255,255,.04);border:1px solid var(--g700);border-radius:8px;padding:8px 12px;color:#fff;font-family:inherit;font-size:.82rem;resize:vertical;min-height:60px">${o.adminNote||''}</textarea>
+      <button onclick="saveNote('${id}')" style="padding:8px 14px;background:var(--red);color:#fff;border-radius:8px;font-size:.78rem;font-weight:800;cursor:pointer;font-family:inherit;transition:background .2s;align-self:flex-end" onmouseover="this.style.background='#ef4444'" onmouseout="this.style.background='var(--red)'">Save Note</button>
+    </div>`;
+  document.getElementById('dov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function df(label,val){return`<div class="df"><div class="dfl">${label}</div><div class="dfv">${val}</div></div>`;}
+function closeD(){document.getElementById('dov').classList.remove('open');document.body.style.overflow='';}
+
+async function setStatus(id,status){
+  try{
+    await db.collection('orders').doc(id).update({status});
+    const o=allOrders.find(x=>x.id===id);if(o)o.status=status;
+    updateStats();renderOrders();closeD();
+    showToast('Status: '+status,'green');
+  }catch(e){showToast('Error updating status.','red');}
+}
+
+async function deleteOrder(id){
+  if(!confirm('Delete this order permanently?')) return;
+  try{await db.collection('orders').doc(id).delete();allOrders=allOrders.filter(o=>o.id!==id);updateStats();renderOrders();closeD();showToast('Order deleted.');}
+  catch(e){showToast('Error deleting order.','red');}
+}
+
+// ── CSV EXPORT ──
+function exportCSV(){
+  if(!allOrders.length){showToast('No orders to export.','red');return;}
+  const cols=['id','packageName','price','isFirstOrder','platform','platformUsername','robloxUsername','concept','style','deadline','status','otherUsernames','references','notes'];
+  const header=cols.join(',');
+  const rows=allOrders.map(o=>cols.map(c=>{const v=o[c]??'';return`"${String(v).replace(/"/g,'""')}"`}).join(','));
+  const csv=[header,...rows].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`realayonato_orders_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();URL.revokeObjectURL(a.href);
+  showToast(`Exported ${allOrders.length} orders.`,'green');
+}
+
+// ── TOAST ──
+function showToast(msg,type='default'){
+  const tw=document.getElementById('toast-wrap');
+  const t=document.createElement('div');
+  t.className='toast';
+  const icon=type==='green'?'fa-check-circle':type==='red'?'fa-exclamation-circle':'fa-bell';
+  const color=type==='green'?'#22c55e':type==='red'?'#f87171':'var(--red)';
+  t.innerHTML=`<i class="fas ${icon}" style="color:${color}"></i>${msg}`;
+  tw.appendChild(t);
+  setTimeout(()=>{t.classList.add('fade');setTimeout(()=>t.remove(),350);},4000);
+}
+
+async function saveNote(id){
+  const note=document.getElementById('admin-note-inp')?.value||'';
+  try{
+    await db.collection('orders').doc(id).update({adminNote:note});
+    const o=allOrders.find(x=>x.id===id);if(o)o.adminNote=note;
+    showToast('Note saved.','green');
+  }catch(e){showToast('Error saving note.','red');}
+}
+
+// ── AVAILABILITY ──
+let isBusy = false;
+async function loadAvailability() {
+  try {
+    const doc = await db.collection('config').doc('status').get();
+    isBusy = doc.exists && doc.data().busy === true;
+    updateAvailUI();
+  } catch(e) {}
+}
+
+function updateAvailUI() {
+  const btn = document.getElementById('avail-toggle');
+  const dot = document.getElementById('avail-dot');
+  const lbl = document.getElementById('avail-label');
+  if (!btn) return;
+  if (isBusy) {
+    btn.style.cssText = 'background:rgba(220,38,38,.15);color:#f87171;border:1px solid rgba(220,38,38,.3)';
+    dot.style.background = '#dc2626';
+    lbl.textContent = 'Busy — Taking Longer';
+  } else {
+    btn.style.cssText = 'background:rgba(34,197,94,.15);color:#22c55e;border:1px solid rgba(34,197,94,.3)';
+    dot.style.background = '#22c55e';
+    lbl.textContent = 'Open for Orders';
+  }
+}
+
+async function toggleAvailability() {
+  isBusy = !isBusy;
+  updateAvailUI();
+  try {
+    await db.collection('config').doc('status').set({ busy: isBusy });
+    showToast(isBusy ? 'Status: Busy — clients will see a warning.' : 'Status: Open — accepting orders normally.', isBusy ? 'red' : 'green');
+  } catch(e) {
+    showToast('Error updating status. Check Firestore rules.', 'red');
+    isBusy = !isBusy;
+    updateAvailUI();
+  }
+}
+
+// ── SETTINGS & WA ──
+function openSettings() { document.getElementById('set-ov').classList.add('open'); document.body.style.overflow='hidden'; }
+function closeSettings() { document.getElementById('set-ov').classList.remove('open'); document.body.style.overflow=''; }
+
+async function setAvail(busy) {
+  isBusy = busy; updateAvailUI();
+  try {
+    await db.collection('config').doc('status').set({ busy });
+    showToast(busy ? 'Status: Busy' : 'Status: Open for Orders', busy ? 'red' : 'green');
+  } catch(e) { showToast('Error saving.','red'); }
+}
+
+let waKey='', waNum='';
+function loadWASettings() {
+  waKey = localStorage.getItem('ra_wa_key')||'';
+  waNum = localStorage.getItem('ra_wa_num')||'213631115324';
+  const ki=document.getElementById('wa-key-inp'); const ni=document.getElementById('wa-num-inp');
+  if(ki) ki.value=waKey; if(ni) ni.value=waNum;
+}
+
+function saveWASettings() {
+  waKey = (document.getElementById('wa-key-inp')?.value||'').trim();
+  waNum = (document.getElementById('wa-num-inp')?.value||'').trim().replace(/\+/g,'').replace(/\s/g,'');
+  localStorage.setItem('ra_wa_key',waKey); localStorage.setItem('ra_wa_num',waNum);
+  showToast('WhatsApp settings saved!','green');
+}
+
+async function sendWAMessage(msg) {
+  if(!waKey||!waNum) return;
+  try { await fetch('https://api.callmebot.com/whatsapp.php?phone='+waNum+'&text='+encodeURIComponent(msg)+'&apikey='+waKey,{mode:'no-cors'}); } catch(e) {}
+}
+
+function sendTestWA() {
+  if(!waKey){showToast('Enter API key first.','red');return;}
+  sendWAMessage('✅ Test from RealAyonato Admin — notifications working!');
+  showToast('Test message sent!','green');
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){closeD();closeSettings();}});
+</script>
+</body>
+</html>
