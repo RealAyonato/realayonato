@@ -1410,74 +1410,27 @@ async function submitCM() {
     localStorage.removeItem('ra_draft_'+selPkg);
     lastOrderData = {...orderData};
 
-// ✅ Discord Webhook Notification (Professional English)
+// ✅ Discord Webhook Notification (Professional)
 try {
-  const webhookURL = 'ضع_رابط_Webhook_الجديد_هنا'; // ⬅️ Paste NEW Webhook URL here
+  const webhookURL = 'https://discord.com/api/webhooks/1485687954050383883/cvw7zOKRXNZjzu8MH8k8sDdtkih93Yb8w_Wm0DMoVGH7_q8NfnroWx4ooDgcy8njQ_zf'; // ⬅️ الصق رابط Webhook الجديد هنا
   
   const embed = {
     embeds: [{
       title: '🔔 New Order Received — RealAyonato.art',
       description: 'A new design order has been submitted successfully.',
-      color: 14423100, // Red: #dc2626
-      thumbnail: {
-        url: 'https://i.postimg.cc/qqJzc822/logo.webp'
-      },
+      color: 14423100,
+      thumbnail: { url: 'https://i.postimg.cc/qqJzc822/logo.webp' },
       fields: [
-        {
-          name: '📦 Package',
-          value: '`' + (orderData.packageName || 'Not specified') + '`',
-          inline: true
-        },
-        {
-          name: '💰 Price',
-          value: '**$' + orderData.price + '**' + (orderData.isFirstOrder ? '\n_50% First-Order Discount Applied_' : ''),
-          inline: true
-        },
-        {
-          name: '🎯 Customer Type',
-          value: orderData.isFirstOrder ? 'New Customer 🆕' : 'Returning Customer',
-          inline: true
-        },
-        {
-          name: '👤 Roblox Username',
-          value: '`' + (orderData.robloxUsername || '—') + '`',
-          inline: true
-        },
-        {
-          name: '💬 Platform',
-          value: orderData.platform || '—',
-          inline: true
-        },
-        {
-          name: '🔗 Contact Username',
-          value: orderData.platformUsername ? '`' + orderData.platformUsername + '`' : '—',
-          inline: true
-        },
-        {
-          name: '🕐 Requested Deadline',
-          value: orderData.deadline || 'Not specified',
-          inline: false
-        },
-        {
-          name: '📝 Concept / Description',
-          value: orderData.concept || 'No concept provided',
-          inline: false
-        },
-        {
-          name: '🎨 Style Preference',
-          value: orderData.style || 'Not specified',
-          inline: false
-        },
-        {
-          name: '📋 Additional Notes',
-          value: orderData.notes || 'No additional notes',
-          inline: false
-        }
+        { name: '📦 Package', value: '`' + (orderData.packageName || 'Not specified') + '`', inline: true },
+        { name: '💰 Price', value: '**$' + orderData.price + '**' + (orderData.isFirstOrder ? '\n_50% First-Order Discount_' : ''), inline: true },
+        { name: '🎯 Customer', value: orderData.isFirstOrder ? 'New 🆕' : 'Returning', inline: true },
+        { name: '👤 Roblox', value: '`' + (orderData.robloxUsername || '—') + '`', inline: true },
+        { name: '💬 Platform', value: orderData.platform || '—', inline: true },
+        { name: '🔗 Contact', value: orderData.platformUsername ? '`' + orderData.platformUsername + '`' : '—', inline: true },
+        { name: '🕐 Deadline', value: orderData.deadline || 'Not specified', inline: false },
+        { name: '📝 Concept', value: orderData.concept || 'No concept provided', inline: false }
       ],
-      footer: {
-        text: '🔖 Order ID: #' + docRef.id.slice(-6).toUpperCase() + ' | RealAyonato.art',
-        icon_url: 'https://i.postimg.cc/qqJzc822/logo.webp'
-      },
+      footer: { text: '🔖 Order ID: #' + docRef.id.slice(-6).toUpperCase() + ' | RealAyonato.art', icon_url: 'https://i.postimg.cc/qqJzc822/logo.webp' },
       timestamp: new Date().toISOString()
     }]
   };
@@ -1486,25 +1439,14 @@ try {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(embed)
-  }).catch(() => {});
+  })
+  .then(response => {
+    if (!response.ok) console.error('Discord webhook failed:', response.status);
+  })
+  .catch(error => console.error('Discord notification error:', error));
 } catch(e) {
-  console.error('Discord notification error:', e);
+  console.error('Discord webhook exception:', e);
 }
-
-    // Telegram notification
-    try {
-      const TG_CHAT  = '8110050067';
-      const tgMsg = encodeURIComponent(
-        '🔔 New Order — RealAyonato.art\n\n' +
-        '📦 Package: ' + orderData.packageName + '\n' +
-        '💰 Price: $' + orderData.price + (orderData.isFirstOrder ? ' (first order)' : '') + '\n' +
-        '👤 Roblox: ' + (orderData.robloxUsername||'—') + '\n' +
-        '💬 Platform: ' + (orderData.platform||'—') + ' — ' + (orderData.platformUsername||'—') + '\n' +
-        '🕐 Deadline: ' + (orderData.deadline||'—') + '\n' +
-        '🔖 Ref: #' + docRef.id.slice(-6).toUpperCase()
-      );
-      
-    } catch(e) {}
 
     // Hide form, show success
     const cmBody = document.getElementById('cm-body');
